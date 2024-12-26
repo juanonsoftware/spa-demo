@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SPA Demo App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.15/jsrender.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.11.6/page.js"></script>
+</head>
+<body>
+    <a href="/">Home</a>
+    <div id="content"></div>
+
+    <script id="indexTemplate" type="text/x-jsrender">
+        <h1>Top Products</h1>
+        <ul>
+            {{for products}}
+                <li>
+                    <div>
+                        <a href="/product/{{:id}}">{{:name}}</a>
+                    </div>
+                    <small>
+                        Category <a href="/category/{{:categoryId}}">{{:categoryName}}</a>
+                    </small>
+                </li>
+            {{/for}}
+        </ul>
+    </script>
+
+    <script id="categoryTemplate" type="text/x-jsrender">
+        <h1>{{:categoryName}}</h1>
+        <ul>
+            {{for products}}
+                <li><a href="/product/{{:id}}">{{:name}}</a></li>
+            {{/for}}
+        </ul>
+    </script>
+
+    <script id="productTemplate" type="text/x-jsrender">
+        <h1>{{:name}}</h1>
+        <p>{{:description}}</p>
+        <small>
+            Category <a href="/category/{{:categoryId}}">{{:categoryName}}</a>
+        </small>
+
+        <h2>Comments</h2>
+        <ul>
+            {{for comments}}
+                <li>{{:id}} - {{:text}}</li>
+            {{/for}}
+        </ul>
+    </script>
+
+    <script>
+        // Mock API calls with static JSON files
+        const mockData = {
+            products: '/data/products',
+            category: '/data/category',
+            product: '/data/product'
+        };
+
+        page('/', function() {
+            console.log(`Loading index ${window.location.href}`);
+            $.getJSON(`${mockData.products}.json`, function(data) {
+                $('#content').html($('#indexTemplate').render({ products: data }));
+            });
+        });
+
+        page('/category/:id', function(ctx) {
+            console.log(`Loading category ${window.location.href}`);
+
+            const categoryId = ctx.params.id; 
+            const categoryFile = `${mockData.category}_${categoryId}.json`; 
+
+            $.getJSON(categoryFile, function(data) {
+                $('#content').html($('#categoryTemplate').render({ categoryName: data.name, products: data.products }));
+            });
+        });
+
+        page('/product/:id', function(ctx) {
+            console.log(`Loading product ${window.location.href}`);
+
+            const productId = ctx.params.id;
+            const productFile = `${mockData.product}_${productId}.json`;
+
+            $.getJSON(productFile, function(data) {
+                $('#content').html($('#productTemplate').render(data));
+            });
+        });
+
+        page(); // Start routing
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+    "name": "iPhone 10",
+    "description": "This is a new iPhone 10 device",
+    "categoryId": 2,
+    "categoryName": "New Smart phones",
+    "comments": [
+        {
+            "text": "This is nice yessssssssssssss"
+        },
+        {
+            "text": "I like this iPhone Okie"
+        }
+    ]
+}

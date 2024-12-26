@@ -1,0 +1,9 @@
+{
+    "name": "New Smart phones",
+    "products": [
+        {
+            "id": 3,
+            "name": "iPhone 10"
+        }
+    ]
+}

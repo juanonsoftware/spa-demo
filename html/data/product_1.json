@@ -1,0 +1,16 @@
+{
+    "name": "iPhone 5",
+    "description": "This is a new iPhone 5 device",
+    "categoryId": 1,
+    "categoryName": "Smart phones",
+    "comments": [
+        {
+            "id": 10,
+            "text": "This is nice"
+        },
+        {
+            "id": 20,
+            "text": "I like this iPhone"
+        }
+    ]
+}
